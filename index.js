@@ -33,7 +33,7 @@ module.exports = {
     app.options.sassOptions.includePaths.push(foundationPath);
 
     // Include the js paths
-    if (options && options.foundationJs) {
+    if (options && options.foundationJs && !process.env.EMBER_CLI_FASTBOOT) {
       if ((typeof options.foundationJs === 'string') ||
           (options.foundationJs instanceof String)) {
         if (options.foundationJs === 'all') {

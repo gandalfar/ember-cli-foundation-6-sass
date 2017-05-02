@@ -8,7 +8,8 @@ export default Ember.Component.extend(zfWidget, {
   classNames: ['dropdown-pane', '_position'],
 
   /** @member Attribute bindings */
-  attributeBindings: ['data-dropdown', 'data-auto-focus', 'data-hover', 'data-hover-pane'],
+  attributeBindings: ['data-dropdown', 'data-auto-focus', 'data-hover', 'data-hover-pane',
+                      'data-v-offset', 'data-h-offset'],
 
   /** @member Makes the data attribute binding appear */
   'data-dropdown': ' ',

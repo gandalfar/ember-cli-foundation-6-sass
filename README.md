@@ -191,6 +191,38 @@ Usage
 {{/zf-accordion}}
 ```
 
+### Callout (With `ember-cli-flash` Integration)
+
+This addon tends to avoid markup-only related components, this component is a special case.
+This is a good way to easily provide a flash-message-style component to your Ember app.
+
+This is designed to integrate with the [ember-cli-flash](https://github.com/poteto/ember-cli-flash) addon
+(which provides a foundation5 styling option)
+
+Usage with ember-cli-flash
+
+```hbs
+  {{#each flashMessages.queue as |flash|}}
+    {{zf-callout flash=flash}}
+  {{/each}}
+
+```
+
+If you want to bring your own data and actions:
+
+```hbs
+  {{zf-callout type="success" content="add content here"}}
+```
+
+Or use block params:
+
+```hbs
+  {{#zf-callout}}
+    Oops, something happened, but I don't know what.
+  {{/zf-callout}}
+```
+
+
 ### Drilldown Menu
 
 Usage
@@ -418,7 +450,7 @@ Usage
 Usage
 
 ```hbs
-{{#zf-tabs}}
+{{#zf-tabs id="example-tabs"}}
   <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Tab 1</a></li>
   <li class="tabs-title"><a href="#panel2">Tab 2</a></li>
 {{/zf-tabs}}

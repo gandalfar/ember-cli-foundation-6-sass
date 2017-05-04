@@ -10,7 +10,7 @@ export default Ember.Component.extend(zfWidget, {
   classNames: ['dropdown', 'menu'],
 
   /** @member Attribute bindings */
-  attributeBindings: ['data-dropdown-menu'],
+  attributeBindings: ['data-dropdown-menu', 'data-hover-delay'],
 
   /** @member Makes the data attribute binding appear */
   'data-dropdown-menu': ' ',

@@ -1,13 +1,10 @@
 /* jshint node: true */
 'use strict';
 var path = require('path');
-var fs = require('fs');
-var babel = require('babel-core');
 var VersionChecker = require('ember-cli-version-checker');
 var Funnel = require('broccoli-funnel');
 var mergeTrees = require('broccoli-merge-trees');
 var fastbootTransform = require('fastboot-transform');
-var esTranspiler = require('broccoli-babel-transpiler');
 
 module.exports = {
   name: 'ember-cli-foundation-6-sass',
@@ -22,7 +19,7 @@ module.exports = {
 
     // Calculate the path using require.resolve which checks the whole path.
     // This gives us a specific file in dist/js/npm.js hence the need to path.resolve our way back up.
-    var foundationPath = path.resolve(require.resolve('foundation-sites'), '../..');
+    var foundationPath = path.resolve(require.resolve('foundation-sites'), '../../dist');
 
     if (options && options.foundationJs) {
       if ((typeof options.foundationJs === 'string') ||
@@ -39,6 +36,8 @@ module.exports = {
           });
         }
       } else {
+        var babelAddon = this.addons.find(addon => addon.name === 'ember-cli-babel');
+
         if (isGTE6_3_0) {
           foundationPath = path.resolve(require.resolve('foundation-sites'), '../../../js'); // go deeper
         }
@@ -48,30 +47,21 @@ module.exports = {
           files: this.jsFilesToInclude
         });
 
-        foundationTree = esTranspiler(foundationTree, {
-          plugins: [
-            require.resolve('babel-plugin-transform-es2015-arrow-functions'),
-            require.resolve('babel-plugin-transform-es2015-block-scoped-functions'),
-            require.resolve('babel-plugin-transform-es2015-block-scoping'),
-            require.resolve('babel-plugin-transform-es2015-classes'),
-            require.resolve('babel-plugin-transform-es2015-destructuring'),
-            require.resolve('babel-plugin-transform-es2015-modules-commonjs'),
-            require.resolve('babel-plugin-transform-es2015-parameters'),
-            require.resolve('babel-plugin-transform-es2015-shorthand-properties'),
-            require.resolve('babel-plugin-transform-es2015-spread'),
-            require.resolve('babel-plugin-transform-es2015-template-literals')
-          ]
-        });
+        foundationTree = babelAddon.transpileTree(foundationTree);
       }
+
+      foundationTree = fastbootTransform(foundationTree);
+
+      return vendorTree ? new mergeTrees([vendorTree, foundationTree]) : foundationTree;
     }
 
-    foundationTree = fastbootTransform(foundationTree);
-    return new mergeTrees([vendorTree, foundationTree]);
+    return vendorTree;
   },
 
 
   included: function included(app) {
     this._super.included(app);
+    this.app = app;
     var options = app.options['ember-cli-foundation-6-sass'];
 
     var checker = new VersionChecker(this);
@@ -112,14 +102,14 @@ module.exports = {
         (options.foundationJs instanceof String)) {
         if (options.foundationJs === 'all') {
           this.jsFilesToInclude = ['foundation.js'];
-          app.import(path.join('vendor/foundation-sites', 'foundation.js'));
+          this.import(path.join('vendor/foundation-sites', 'foundation.js'));
         }
       }
       else if (options.foundationJs instanceof Array) {
         options.foundationJs.forEach((componentName) => {
           var filename = 'foundation.' + componentName + '.js';
           this.jsFilesToInclude.push(filename);
-          app.import(path.join('vendor/foundation-sites', filename));
+          this.import(path.join('vendor/foundation-sites', filename));
         });
       }
     }

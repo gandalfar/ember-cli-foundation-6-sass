@@ -12,10 +12,35 @@ module.exports = function(defaults) {
     // 'ember-cli-foundation-6-sass': {
     //   'foundationJs': [
     //     'core',
-    //     'util.box',
-    //     'util.touch',
+    //     'abide',
+    //     'accordion',
+    //     'accordionMenu',
+    //     'drilldown',
     //     'dropdown',
     //     'dropdownMenu',
+    //     'equalizer',
+    //     'interchange',
+    //     'magellan',
+    //     'offcanvas',
+    //     'orbit',
+    //     'responsiveMenu',
+    //     'responsiveToggle',
+    //     'reveal',
+    //     'slider',
+    //     'sticky',
+    //     'tabs',
+    //     'toggler',
+    //     'tooltip',
+    //     'util.box',
+    //     'util.keyboard',
+    //     'util.mediaQuery',
+    //     'util.motion',
+    //     'util.nest',
+    //     // This is renamed in 6.4 from util.timerAndImageLoader to util.timer
+    //     // 'util.timerAndImageLoader',
+    //     'util.timer',
+    //     'util.touch',
+    //     'util.triggers'
     //   ]
     // },
 
